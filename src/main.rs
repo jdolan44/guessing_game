@@ -4,9 +4,30 @@ use std::cmp::Ordering;
 
 fn main() {
     //configure game
-    let secret_number: u32 = rand::thread_rng().gen_range(1..=100);
+    let upper_bound: u32 = get_upper_bound();
+    let secret_number: u32 = rand::thread_rng().gen_range(1..=upper_bound);
 
     play_game(secret_number);
+}
+
+fn get_upper_bound() -> u32{
+    loop{
+        let mut num_limit = String::new();
+        println!("Enter the upper bound for the random number:");
+
+        io::stdin()
+                .read_line(&mut num_limit)
+                .expect("Failed to read line!");
+        
+        let num_limit: u32 = match num_limit.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("invalid input! try again."); 
+                continue;
+            }
+        };
+        return num_limit;
+    }
 }
 
 fn play_game(secret_number: u32){
