@@ -4,16 +4,19 @@ use std::cmp::Ordering;
 
 fn main() {
     //configure game
-    let upper_bound: u32 = get_upper_bound();
+    println!("Enter the upper bound for the random number:");
+    let upper_bound: u32 = get_number();
+    println!("Enter the number of guesses:");
+    let num_guesses: u32 = get_number();
+
     let secret_number: u32 = rand::thread_rng().gen_range(1..=upper_bound);
 
-    play_game(secret_number);
+    play_game(secret_number, num_guesses);
 }
 
-fn get_upper_bound() -> u32{
+fn get_number() -> u32{
     loop{
         let mut num_limit = String::new();
-        println!("Enter the upper bound for the random number:");
 
         io::stdin()
                 .read_line(&mut num_limit)
@@ -30,9 +33,10 @@ fn get_upper_bound() -> u32{
     }
 }
 
-fn play_game(secret_number: u32){
-    loop {
-        println!("Enter your guess:");
+fn play_game(secret_number: u32, num_guesses: u32){
+    let mut num_guesses = num_guesses;
+    while num_guesses > 0{
+        println!("Enter your guess ({} guesses remaining):", num_guesses);
 
         let mut guess = String::new();
 
@@ -52,6 +56,10 @@ fn play_game(secret_number: u32){
 
         let has_won = comp_guess(secret_number, guess);
         if has_won { break; }
+        num_guesses-=1;
+    }
+    if num_guesses == 0{
+        println!("You lost!")
     }
 }
 
