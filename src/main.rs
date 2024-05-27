@@ -3,8 +3,13 @@ use rand::Rng;
 use std::cmp::Ordering;
 
 fn main() {
+    //configure game
     let secret_number: u32 = rand::thread_rng().gen_range(1..=100);
 
+    play_game(secret_number);
+}
+
+fn play_game(secret_number: u32){
     loop {
         println!("Enter your guess:");
 
